@@ -40,7 +40,7 @@ defmodule LiveChatWeb.PageLive do
       Most commonly used as a pastebin for my .vimrc, but liveview is pretty neat
           </p>
 
-<div class="form-control mt-24">
+<div class="form-control ">
 <form phx-submit="go">
   <label class="label">
     <b class="label-text">Join chat</b>
@@ -58,17 +58,6 @@ defmodule LiveChatWeb.PageLive do
   </div>
 </div>
 
-<div class="form-control mt-24">
-<form phx-submit="go">
-  <label class="label">
-    <b class="label-text">Join chat</b>
-  </label>
-  <div class="relative">
-    <input name="chat_id" type="text" placeholder="Chat id" class="w-full pr-16 px-5 input input-primary input-bordered">
-    <button type="submit" class="absolute top-0 right-0 rounded-l-none btn btn-primary">go</button>
-  </div>
-  </form>
-</div> 
 
       """
       end
