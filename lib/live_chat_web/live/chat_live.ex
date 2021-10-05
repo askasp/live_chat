@@ -19,7 +19,9 @@ defmodule LiveChatWeb.ChatLive do
 
   def handle_info({:message, message}, socket) do
       new_messages = [message | socket.assigns.messages] |> Enum.reverse
-      {:noreply, assign(socket, messages: new_messages)}
+      new_sock = assign(socket, messages: new_messages)
+      {:noreply, push_event(new_sock, "new_message", %{})}
+
   end
 
   @impl true
@@ -32,7 +34,6 @@ defmodule LiveChatWeb.ChatLive do
 
   @impl true
   def handle_event("send_message", %{"message" => message}, socket) do
-      IO.inspect message
        {:ok,  message} = LiveChat.Chat.create_message(%{"chat_id" => socket.assigns.chat_id, "message" => message, "author" => socket.assigns.name})
        :ok = Phoenix.PubSub.broadcast(LiveChat.PubSub, "chat:"<> socket.assigns.chat_id, {:message, message})
 
@@ -60,7 +61,6 @@ defmodule LiveChatWeb.ChatLive do
           </span>
 
   </div>
-
         <form phx-change="set_name" phx-submit="set_name">
             <div class="relative">
                 <input name="name"  type="text" class="w-full pr-16 px-5 input"
@@ -84,7 +84,7 @@ defmodule LiveChatWeb.ChatLive do
         
   </div>
 </div>
-<div class="container mx-auto px-5 ">
+<div class="container mx-auto px-5 " phx-hook="Scroll" id="messages">
       <div class="mt-16 mb-16">
       <%= for m <- @messages do %>
 <div class="card shadow">
@@ -96,7 +96,7 @@ defmodule LiveChatWeb.ChatLive do
        <% end %>
 
     <div class="form-control mt-5 ">
-    <form phx-submit="send_message">
+    <form phx-submit="send_message" autocomplete="off">
     <div class="relative">
     <input name="message"  id="textarea" type="text" placeholder="type here.." class="w-full pr-16 px-5 input input-primary input-bordered">
     <button type="submit" class="absolute top-0 right-0 rounded-l-none btn btn-primary">Send</button>

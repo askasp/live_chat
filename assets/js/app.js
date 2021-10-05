@@ -26,7 +26,6 @@ Hooks.Scroll = {
     }
 };
 
-
 Hooks.SendMsg= {
   mounted() {
     document.getElementById("textarea").addEventListener("keypress", (e) => {
