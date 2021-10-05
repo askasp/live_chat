@@ -29,6 +29,17 @@ defmodule LiveChatWeb.ChatLive do
     {:noreply, assign(socket, name: name)}
   end
 
+
+  @impl true
+  def handle_event("send_message", %{"message" => message}, socket) do
+      IO.inspect message
+       {:ok,  message} = LiveChat.Chat.create_message(%{"chat_id" => socket.assigns.chat_id, "message" => message, "author" => socket.assigns.name})
+       :ok = Phoenix.PubSub.broadcast(LiveChat.PubSub, "chat:"<> socket.assigns.chat_id, {:message, message})
+
+    {:noreply, socket}
+  end
+
+
   @impl true
   def handle_event("send_message", message, socket) do
       IO.inspect message
