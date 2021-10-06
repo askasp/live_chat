@@ -18,7 +18,7 @@ defmodule LiveChatWeb.ChatLive do
 
 
   def handle_info({:message, message}, socket) do
-      new_messages = [message | socket.assigns.messages] |> Enum.reverse
+      new_messages =  socket.assigns.messages ++ [message]
       new_sock = assign(socket, messages: new_messages)
       {:noreply, push_event(new_sock, "new_message", %{})}
 
