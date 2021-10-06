@@ -11,6 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :live_chat, LiveChatWeb.Endpoint,
   url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
+  check_origin: ["//live-chat.onerender.com", "//livechat.stadler.no"],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
